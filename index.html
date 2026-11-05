@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="description" content="Read-only public strategy performance summary. Ordinal accounts only. No credentials."/>
+<title>策略业绩公开页 · ①–⑭</title>
+<style>
+:root {
+  --bg:#0b1017; --bg2:#121a24; --card:#172131; --card2:#1c2a3d;
+  --border:#2a3a52; --text:#e8eef7; --muted:#8fa0b8;
+  --accent:#5eb0ef; --accent2:#7c9cff; --win:#3dd68c; --loss:#f07178;
+  --warn:#e6c07b; --chip:#243247; --shadow:0 10px 40px rgba(0,0,0,.35);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(94,176,239,.12), transparent 50%),
+    radial-gradient(900px 500px at 100% 0%, rgba(124,156,255,.10), transparent 45%),
+    var(--bg);
+  color:var(--text); line-height:1.55; font-size:14px; min-height:100vh;
+}
+.wrap { max-width:1180px; margin:0 auto; padding:28px 18px 80px; }
+header.hero {
+  background:linear-gradient(135deg, rgba(23,33,49,.95), rgba(28,42,61,.88));
+  border:1px solid var(--border); border-radius:18px; padding:22px 22px 18px;
+  box-shadow:var(--shadow); margin-bottom:18px;
+}
+.badge {
+  display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:.04em;
+  text-transform:uppercase; color:var(--accent); background:rgba(94,176,239,.12);
+  border:1px solid rgba(94,176,239,.28); border-radius:999px; padding:4px 10px; margin-bottom:10px;
+}
+h1 { font-size:clamp(1.35rem, 2.4vw, 1.85rem); margin:0 0 6px; font-weight:750; letter-spacing:.01em; }
+.sub { color:var(--muted); margin:0 0 8px; }
+.meta { display:flex; flex-wrap:wrap; gap:10px 16px; color:var(--muted); font-size:12.5px; margin-top:10px; }
+.meta strong { color:var(--text); font-weight:600; }
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(148px,1fr)); gap:12px; margin:16px 0 8px; }
+.kpi {
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 15px;
+  transition:transform .15s ease, border-color .15s;
+}
+.kpi:hover { transform:translateY(-1px); border-color:#3a5070; }
+.kpi .lab { color:var(--muted); font-size:12px; }
+.kpi .val { font-size:1.35rem; font-weight:750; margin-top:6px; font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+.kpi .hint { color:var(--muted); font-size:11px; margin-top:4px; }
+.pos { color:var(--win); } .neg { color:var(--loss); }
+section { margin-top:26px; }
+h2 {
+  font-size:1.05rem; margin:0 0 12px; padding-bottom:8px;
+  border-bottom:1px solid var(--border); color:var(--accent); font-weight:700;
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+}
+.card {
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:4px;
+  overflow:auto; box-shadow:var(--shadow);
+}
+table { width:100%; border-collapse:collapse; min-width:720px; }
+th, td {
+  padding:10px 12px; text-align:left; border-bottom:1px solid rgba(42,58,82,.85);
+  font-variant-numeric:tabular-nums; white-space:nowrap;
+}
+th {
+  position:sticky; top:0; background:var(--card2); color:var(--muted);
+  font-size:12px; font-weight:600; letter-spacing:.02em; z-index:1;
+}
+tr:hover td { background:rgba(255,255,255,.02); }
+td.sym { font-weight:650; }
+.chip {
+  display:inline-block; background:var(--chip); border:1px solid var(--border);
+  border-radius:999px; padding:2px 8px; font-size:11.5px; color:var(--text);
+}
+.chip.long { color:#7fd4c0; border-color:rgba(127,212,192,.35); }
+.chip.short { color:#f0a0a6; border-color:rgba(240,160,166,.35); }
+.chip.win { color:var(--win); border-color:rgba(61,214,140,.35); }
+.chip.loss { color:var(--loss); border-color:rgba(240,113,120,.35); }
+.toolbar {
+  display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px; align-items:center;
+}
+input[type="search"], select {
+  background:var(--bg2); color:var(--text); border:1px solid var(--border);
+  border-radius:10px; padding:8px 12px; font:inherit; min-width:160px;
+}
+input[type="search"]:focus, select:focus { outline:none; border-color:var(--accent); }
+.note {
+  background:rgba(230,192,123,.08); border:1px solid rgba(230,192,123,.28);
+  color:var(--warn); border-radius:12px; padding:12px 14px; font-size:12.5px; margin-top:14px;
+}
+.notes { color:var(--muted); font-size:12.5px; margin:10px 0 0; padding-left:18px; }
+.notes li { margin:4px 0; }
+footer {
+  margin-top:36px; color:var(--muted); font-size:12px; text-align:center;
+  border-top:1px solid var(--border); padding-top:18px;
+}
+.err {
+  background:rgba(240,113,120,.1); border:1px solid rgba(240,113,120,.35);
+  color:var(--loss); border-radius:12px; padding:14px; margin:12px 0;
+}
+.muted { color:var(--muted); }
+.right { text-align:right; }
+.count { color:var(--muted); font-size:12px; font-weight:500; }
+@media (max-width:640px) {
+  .wrap { padding:16px 12px 60px; }
+  table { min-width:640px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="badge">Read-only · Auto-updated · No credentials</div>
+    <h1 id="title">策略业绩公开页 · 账户 ①–⑭</h1>
+    <p class="sub" id="subtitle">只读展示接入以来的汇总收益率、分户盈亏与历史策略明细。不含账户名、UID、API Key。</p>
+    <div class="meta">
+      <span>时区 <strong>Asia/Shanghai</strong></span>
+      <span>数据更新 <strong id="generated">—</strong></span>
+      <span>仓位状态 <strong id="posStatus">—</strong></span>
+    </div>
+  </header>
+
+  <div id="loadError" class="err" hidden></div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <h2>分户盈亏 <span class="count">①–⑭</span></h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>接入日</th>
+            <th class="right">天数</th>
+            <th class="right">权益 U</th>
+            <th class="right">本金 U</th>
+            <th class="right">净盈亏 U</th>
+            <th class="right">收益率</th>
+            <th class="right">策略数</th>
+            <th class="right">策略净 U</th>
+            <th class="right">胜/负</th>
+          </tr>
+        </thead>
+        <tbody id="acctBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>
+      <span>历史策略</span>
+      <span class="count" id="stratCount"></span>
+    </h2>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="搜索标的 / 方向 / 结果…" />
+      <select id="sideFilter">
+        <option value="">全部方向</option>
+        <option value="long">多</option>
+        <option value="short">空</option>
+      </select>
+      <select id="resultFilter">
+        <option value="">全部结果</option>
+        <option value="win">盈</option>
+        <option value="loss">亏</option>
+      </select>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>开仓时间</th>
+            <th>平仓时间</th>
+            <th>标的</th>
+            <th>方向</th>
+            <th class="right">开仓价</th>
+            <th class="right">平仓价</th>
+            <th class="right">涨跌%</th>
+            <th class="right">盈亏 U</th>
+            <th>结果</th>
+            <th>参与账户</th>
+          </tr>
+        </thead>
+        <tbody id="stratBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="note" id="disclaimer"></div>
+  <ul class="notes" id="notes"></ul>
+
+  <footer>
+    本站为只读静态页 · 夜间例程仅替换 <code>data.json</code> · 不含任何交易所密钥<br/>
+    Not financial advice. Performance figures may exclude fees nuances and spot inventory effects as noted.
+  </footer>
+</div>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n, d=2) => {
+    if (n === null || n === undefined || Number.isNaN(Number(n))) return '—';
+    return Number(n).toLocaleString('en-US', { minimumFractionDigits:d, maximumFractionDigits:d });
+  };
+  const fmtPx = (n) => {
+    if (n === null || n === undefined || Number.isNaN(Number(n))) return '—';
+    const x = Number(n);
+    if (Math.abs(x) >= 1000) return fmt(x, 2);
+    if (Math.abs(x) >= 1) return fmt(x, 4);
+    if (Math.abs(x) >= 0.01) return fmt(x, 6);
+    return x.toExponential(4);
+  };
+  const cls = (n) => Number(n) >= 0 ? 'pos' : 'neg';
+  const signFmt = (n, d=2) => {
+    const v = Number(n);
+    const s = (v > 0 ? '+' : '') + fmt(v, d);
+    return s;
+  };
+
+  let DATA = null;
+
+  function renderKpis(t) {
+    const items = [
+      { lab:'合计权益', val: fmt(t.equity) + ' U' },
+      { lab:'合计本金', val: fmt(t.principal) + ' U' },
+      { lab:'净盈亏', val: signFmt(t.net_pnl) + ' U', c: cls(t.net_pnl) },
+      { lab:'收益率', val: signFmt(t.return_pct) + '%', c: cls(t.return_pct) },
+      { lab:'策略数', val: String(t.n_strategies), hint: `胜 ${t.wins} / 负 ${t.losses}` },
+      { lab:'策略净 U', val: signFmt(t.strategy_net_u, 2) + ' U', c: cls(t.strategy_net_u) },
+    ];
+    $('kpis').innerHTML = items.map(i => `
+      <div class="kpi">
+        <div class="lab">${i.lab}</div>
+        <div class="val ${i.c||''}">${i.val}</div>
+        ${i.hint ? `<div class="hint">${i.hint}</div>` : ''}
+      </div>`).join('');
+  }
+
+  function renderAccounts(accounts) {
+    const rows = [...accounts].sort((a,b)=>a.id-b.id).map(a => `
+      <tr>
+        <td><span class="chip">${a.label}</span></td>
+        <td>${a.onboard || '—'}</td>
+        <td class="right">${a.days ?? '—'}</td>
+        <td class="right">${fmt(a.equity)}</td>
+        <td class="right">${fmt(a.principal)}</td>
+        <td class="right ${cls(a.pnl)}">${signFmt(a.pnl)}</td>
+        <td class="right ${cls(a.rate_pct)}">${signFmt(a.rate_pct)}%</td>
+        <td class="right">${a.n_strat}</td>
+        <td class="right ${cls(a.net_u)}">${signFmt(a.net_u)}</td>
+        <td class="right">${a.wins}/${a.losses}</td>
+      </tr>`).join('');
+    $('acctBody').innerHTML = rows;
+  }
+
+  function filteredStrategies() {
+    const q = ($('q').value || '').trim().toLowerCase();
+    const side = $('sideFilter').value;
+    const result = $('resultFilter').value;
+    return DATA.strategies.filter(s => {
+      if (side && s.side !== side) return false;
+      if (result && s.result !== result) return false;
+      if (!q) return true;
+      const hay = [s.symbol, s.base, s.label, s.side_cn, s.result_cn, (s.accounts_label||[]).join(' ')].join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  function renderStrategies() {
+    const list = filteredStrategies();
+    $('stratCount').textContent = `显示 ${list.length} / ${DATA.strategies.length}`;
+    $('stratBody').innerHTML = list.map(s => `
+      <tr>
+        <td>${s.open_full || s.open_t || '—'}</td>
+        <td>${s.close_full || s.close_t || '—'}</td>
+        <td class="sym">${s.base || (s.symbol||'').replace('USDT','')}</td>
+        <td><span class="chip ${s.side}">${s.side_cn || s.side}</span></td>
+        <td class="right">${fmtPx(s.open_px)}</td>
+        <td class="right">${fmtPx(s.close_px)}</td>
+        <td class="right ${cls(s.pct)}">${signFmt(s.pct, 2)}%</td>
+        <td class="right ${cls(s.net_sum)}">${signFmt(s.net_sum, 4)}</td>
+        <td><span class="chip ${s.result}">${s.result_cn || s.result}</span></td>
+        <td>${(s.accounts_label || s.accounts || []).join(' ')}</td>
+      </tr>`).join('') || `<tr><td colspan="10" class="muted">无匹配策略</td></tr>`;
+  }
+
+  function renderMeta(data) {
+    document.title = data.title_cn || data.title || document.title;
+    $('title').textContent = data.title_cn || data.title;
+    $('generated').textContent = data.generated_at || '—';
+    $('posStatus').textContent = data.position_status || '—';
+    $('disclaimer').textContent = data.disclaimer || '';
+    $('notes').innerHTML = (data.notes_public || []).map(n => `<li>${n}</li>`).join('');
+  }
+
+  function bind() {
+    ['q','sideFilter','resultFilter'].forEach(id => {
+      $(id).addEventListener('input', renderStrategies);
+      $(id).addEventListener('change', renderStrategies);
+    });
+  }
+
+  async function boot() {
+    try {
+      const res = await fetch('data.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      DATA = await res.json();
+      renderMeta(DATA);
+      renderKpis(DATA.totals || {});
+      renderAccounts(DATA.accounts || []);
+      bind();
+      renderStrategies();
+    } catch (e) {
+      $('loadError').hidden = false;
+      $('loadError').textContent = '无法加载 data.json（需通过 HTTP 托管打开，不能直接用本地 file://）。错误：' + e.message;
+    }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
