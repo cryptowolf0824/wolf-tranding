@@ -328,7 +328,7 @@ footer {
     };
     $('futBody').innerHTML = fut.length
       ? fut.map(x => row(x.symbol, x.side, x.cost)).join('')
-      : '<div class="empty">空</div>';
+      : '<div class="empty">暂无持仓</div>';
     $('spotBody').innerHTML = spot.length
       ? spot.map(x => row(x.symbol, null, x.cost)).join('')
       : '<div class="empty"></div>';
