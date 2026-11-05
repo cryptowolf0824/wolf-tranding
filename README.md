@@ -1,6 +1,6 @@
 # Public strategy performance site (read-only)
 
-Static site that shows **accounts ①–⑭ / #1–#14** strategy PnL since onboard.
+Static site that shows **accounts ①–⑮ / #1–#15** strategy PnL since onboard.
 
 - **No API keys, UIDs, account names, MCP ids, or exchange credentials**
 - **Read-only**: the page cannot place orders
