@@ -1,11 +1,11 @@
 {
   "title": "Strategy Performance · Accounts #1–#15",
   "title_cn": "策略业绩公开页 · 账户 ①–⑮",
-  "generated_at": "2026-11-05T15:16:05+08:00",
+  "generated_at": "2026-11-05T15:21:55+08:00",
   "tz": "Asia/Shanghai",
   "display_rule": "ordinals only (#1–#15 / ①–⑮); no account names, UIDs, API keys",
   "disclaimer": "Read-only performance summary. Not financial advice. Not copy-trading signals. No API keys or account credentials are published.",
-  "position_status": "合约空仓；现货 rSNXX 成本6.0579、XAUT、ETH、BTC",
+  "position_status": "合约空仓；现货 rSNXX 成本6.0579",
   "scope": {
     "accounts": "1-15",
     "excluded_account_15": false,
@@ -4858,19 +4858,8 @@
       {
         "symbol": "rSNXX",
         "cost": 6.0579
-      },
-      {
-        "symbol": "XAUT",
-        "cost": null
-      },
-      {
-        "symbol": "ETH",
-        "cost": null
-      },
-      {
-        "symbol": "BTC",
-        "cost": null
       }
-    ]
+    ],
+    "rule": "strategy holdings only (not incidental wallet balances)"
   }
 }

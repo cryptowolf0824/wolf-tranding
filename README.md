@@ -4,6 +4,7 @@ Static site that shows **accounts ①–⑮ / #1–#15** strategy PnL since onbo
 
 - **No API keys, UIDs, account names, MCP ids, or exchange credentials**
 - **Read-only**: the page cannot place orders
+- **Holdings panels** (`positions.spot` / `positions.futures`) show the strategy book only. Never dump incidental non-stable wallet coins.
 - Auto-update = overwrite `data.json` (HTML stays put)
 
 ## What’s on the page
@@ -13,6 +14,7 @@ Static site that shows **accounts ①–⑮ / #1–#15** strategy PnL since onbo
 | KPI | Total equity, principal, net PnL, return %, strategy count, strategy net U |
 | Per-account | Ordinal only: onboard day, equity, principal, PnL, return %, strategy W/L |
 | History | Open/close time (Asia/Shanghai), symbol, side, open/close price, PnL |
+| Holdings | Strategy book only: futures symbol + side + cost; spot symbol + cost. Empty when none. |
 | Notes | Public methodology + disclaimer |
 
 ## Local preview
